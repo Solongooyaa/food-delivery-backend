@@ -13,6 +13,7 @@ export const connectMongoDB = async () => {
   const MONGODB_URI = process.env.MONGODB_URI;
 };
 
+// delivery
 // app.use(cors());
 app.get("/", async (req: Request, res: Response) => {
   res.send("Hello");
