@@ -7,14 +7,15 @@ const app = express();
 app.use(express.json());
 
 configDotenv();
-const URI = process.env.MONGODB_URI;
-console.log(URI);
+
 export const connectMongoDB = async () => {
   const MONGODB_URI = process.env.MONGODB_URI;
+  await mongoose.connect(MONGODB_URI);
 };
 
-// delivery
-// app.use(cors());
+connectMongoDB();
+
+const FOOD_CATEGORY_SCHEMA = new mongoose.Schema();
 app.get("/", async (req: Request, res: Response) => {
   res.send("Hello");
 });
