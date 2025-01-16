@@ -8,17 +8,18 @@ foodRouter.get("/", async (req: Request, res: Response) => {
   res.json(item);
 });
 
-foodRouter.post("/:id", async (req: Request, res: Response) => {
-  const updatedItem = await FoodModel.findByIdAndUpdate({
+foodRouter.post("/", async (req: Request, res: Response) => {
+  const newItem = await FoodModel.create({
     foodName: req.body.foodName,
-    // category: req.body.category
   });
-  res.json(updatedItem);
+  res.json(newItem);
 });
 
 foodRouter.put("/:id", async (req: Request, res: Response) => {
-  const updatedItem = await FoodModel.findByIdAndUpdate({
+  const updatedItem = await FoodModel.findByIdAndUpdate(req.params.id, {
     foodName: req.body.foodName,
+    category: req.body.category,
+    price: req.body.price,
   });
   res.json(updatedItem);
 });
