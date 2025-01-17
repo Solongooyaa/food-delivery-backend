@@ -20,7 +20,10 @@ const FOOD_SCHEMA = new Schema({
   price: Number,
   image: String,
   ingredients: String,
-  category: mongoose.Schema.Types.ObjectId,
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "FoodCategory",
+  },
 });
 const FoodModel = model("Food", FOOD_SCHEMA, "food");
 

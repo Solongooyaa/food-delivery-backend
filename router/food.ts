@@ -14,6 +14,9 @@ foodRouter.post("/", async (req: Request, res: Response) => {
   });
   res.json(newItem);
 });
+// foodRouter.get("/:id", async (req: Request, res: Response) => {
+//     const
+// })
 
 foodRouter.put("/:id", async (req: Request, res: Response) => {
   const updatedItem = await FoodModel.findByIdAndUpdate(req.params.id, {
