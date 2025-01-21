@@ -3,7 +3,7 @@ import { FoodCategoryModel } from "../models/food-category";
 
 export const foodCategoryRouter = Router();
 
-foodCategoryRouter.get("/", async (req, res) => {
+foodCategoryRouter.get("/", async (req: Request, res: Response) => {
   const item = await FoodCategoryModel.find();
   res.json(item);
 });

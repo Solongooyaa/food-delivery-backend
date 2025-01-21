@@ -9,20 +9,28 @@ foodRouter.get("/", async (req: Request, res: Response) => {
 });
 
 foodRouter.post("/", async (req: Request, res: Response) => {
+  const { category, foodName, image, price, ingredients } = req.body;
   const newItem = await FoodModel.create({
-    foodName: req.body.foodName,
+    category,
+    foodName,
+    image,
+    price,
+    ingredients,
   });
   res.json(newItem);
 });
-// foodRouter.get("/:id", async (req: Request, res: Response) => {
-//     const
-// })
+foodRouter.get("/:id", async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const item = await FoodModel.findById(id);
+  res.json(item);
+});
 
 foodRouter.put("/:id", async (req: Request, res: Response) => {
   const updatedItem = await FoodModel.findByIdAndUpdate(req.params.id, {
     foodName: req.body.foodName,
     category: req.body.category,
     price: req.body.price,
+    ingredients: req.body.ingredients,
   });
   res.json(updatedItem);
 });
