@@ -22,10 +22,13 @@ const connectMongoDB = async () => {
 
 connectMongoDB();
 
-app.use("/food-category/", foodCategoryRouter);
-app.use("/food/", foodRouter);
-app.use("/food-order/", foodOrderRouter);
-app.use("/user/", userRouter);
+app.use("/", (req: Request, res: Response) => {
+  res.send("Hello World");
+});
+app.use("/food-category", foodCategoryRouter);
+app.use("/food", foodRouter);
+app.use("/food-order", foodOrderRouter);
+app.use("/user", userRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is Running on http://localhost:${PORT}`);
