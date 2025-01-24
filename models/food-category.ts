@@ -29,24 +29,26 @@ const FoodModel = model("Food", FOOD_SCHEMA, "food");
 
 export { FoodModel };
 
-const FOOD_ORDER_ITEM_SCHEMA = new Schema(
-  {
-    food: mongoose.Schema.Types.ObjectId,
-    quantity: Number,
-  },
-  { timestamps: true }
-);
+const FoodOrderItemSchema = new Schema({
+  food: String,
+  quantity: Number,
+});
 
-const FOOD_ORDER_SCHEMA = new Schema(
-  {
-    user: mongoose.Schema.Types.ObjectId,
-    totalPrice: Number,
-    foodOrderItems: String,
+const FOOD_ORDER_SCHEMA = new Schema({
+  user: String,
+  totalPrice: Number,
+  foodOrderItems: [FoodOrderItemSchema],
+  status: {
+    type: String,
+    enum: ["PENDING", "CANCELED", "DELIVERED"],
+    default: "PENDING",
   },
-  { timestamps: true }
-);
+});
 
-const FoodOrderModel = model("FoodOrder", FOOD_ORDER_SCHEMA, "food-order");
+// const FoodOrderModel = model("FoodOrder", FOOD_ORDER_SCHEMA, "food-order");
+
+const FoodOrderModel =
+  mongoose.models["FoodOrder"] || model("User", FOOD_ORDER_SCHEMA);
 
 export { FoodOrderModel };
 

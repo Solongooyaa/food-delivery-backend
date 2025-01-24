@@ -36,6 +36,11 @@ foodRouter.put("/:id", async (req: Request, res: Response) => {
 });
 
 foodRouter.delete("/:id", async (req: Request, res: Response) => {
-  const deletedItem = await FoodModel.findByIdAndDelete(req.params.id);
+  const deletedItem = await FoodModel.findByIdAndDelete(req.params.id, {
+    foodName: req.body.foodName,
+    category: req.body.category,
+    price: req.body.price,
+    ingredients: req.body.ingredients,
+  });
   res.json(deletedItem);
 });
