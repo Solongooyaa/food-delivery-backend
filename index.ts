@@ -3,7 +3,6 @@ import express, { Request, Response } from "express";
 const mongoose = require("mongoose");
 const cors = require("cors");
 import { foodCategoryRouter } from "./router/food-category";
-import { FoodCategoryModel, UserModel } from "./models/food-category";
 import { foodRouter } from "./router/food";
 import { foodOrderRouter } from "./router/food-order";
 import { userRouter } from "./router/user";

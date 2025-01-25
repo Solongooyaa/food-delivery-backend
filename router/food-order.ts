@@ -8,14 +8,11 @@ foodOrderRouter.get("/", async (req: Request, res: Response) => {
   res.json(item);
 });
 
-foodOrderRouter.post("/", auth, async (req: Request, res: Response) => {
-  const user = req?.userId;
-  const { foodOrderItems, totalPrice } = req.body;
-
-  const order = { user, foodOrderItems, totalPrice };
-
-  const newOrder = await FoodOrderModel.create(order);
-  res.json(newOrder);
+foodOrderRouter.post("/", async (req: Request, res: Response) => {
+  const newItem = await FoodOrderModel.create({
+    foodName: req.body.foodName,
+  });
+  res.json(newItem);
 });
 
 foodOrderRouter.get("/:id", async (req: Request, res: Response) => {
@@ -35,4 +32,8 @@ foodOrderRouter.patch("/:id", async (req: Request, res: Response) => {
     { new: true }
   );
   res.json(updatedItem);
+});
+foodOrderRouter.delete("/:id", async (req: Request, res: Response) => {
+  const deletedItem = await FoodOrderModel.findByIdAndDelete(req.params.id);
+  res.json(deletedItem);
 });

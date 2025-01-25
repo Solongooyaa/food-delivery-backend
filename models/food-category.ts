@@ -45,10 +45,10 @@ const FOOD_ORDER_SCHEMA = new Schema({
   },
 });
 
-// const FoodOrderModel = model("FoodOrder", FOOD_ORDER_SCHEMA, "food-order");
+const FoodOrderModel = model("FoodOrder", FOOD_ORDER_SCHEMA, "food-order");
 
-const FoodOrderModel =
-  mongoose.models["FoodOrder"] || model("User", FOOD_ORDER_SCHEMA);
+// const FoodOrderModel =
+//   mongoose.models["FoodOrder"] || model("User", FOOD_ORDER_SCHEMA);
 
 export { FoodOrderModel };
 
