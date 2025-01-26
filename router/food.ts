@@ -4,7 +4,8 @@ import { FoodModel } from "../models/food-category";
 export const foodRouter = Router();
 
 foodRouter.get("/", async (req: Request, res: Response) => {
-  const item = await FoodModel.find();
+  const filter = req.query.category ? { category: req.query.category } : {};
+  const item = await FoodModel.find(filter);
   res.json(item);
 });
 
