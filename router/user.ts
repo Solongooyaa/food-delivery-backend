@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { UserModel } from "../models/food-category";
+import { UserModel } from "../models/user";
 
 export const userRouter = Router();
 

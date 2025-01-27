@@ -1,47 +1,60 @@
 import { Request, Response, Router } from "express";
-import { FoodModel } from "../models/food-category";
+import { FoodModel } from "../models/food";
 
 export const foodRouter = Router();
 
 foodRouter.get("/", async (req: Request, res: Response) => {
-  const filter = req.query.category ? { category: req.query.category } : {};
-  const item = await FoodModel.find(filter);
-  res.json(item);
+  const categoryId = req.query.categoryId as string;
+
+  if (categoryId) {
+    try {
+      const categoryFoods = await FoodModel.find({
+        category: categoryId,
+      });
+      res.json(categoryFoods);
+    } catch (error) {
+      res.status(500).json({ error });
+    }
+  } else {
+    const allFoods = await FoodModel.find();
+    res.json(allFoods);
+  }
 });
 
 foodRouter.post("/", async (req: Request, res: Response) => {
   const { category, foodName, image, price, ingredients } = req.body;
-  const newItem = await FoodModel.create({
+  const newFood = await FoodModel.create({
     category,
     foodName,
     image,
     price,
     ingredients,
   });
-  res.json(newItem);
+  res.json(newFood);
 });
+
 foodRouter.get("/:id", async (req: Request, res: Response) => {
   const id = req.params.id;
-  const item = await FoodModel.findById(id);
-  res.json(item);
+  const oneFood = await FoodModel.findById(id);
+  res.json(oneFood);
 });
 
 foodRouter.put("/:id", async (req: Request, res: Response) => {
-  const updatedItem = await FoodModel.findByIdAndUpdate(req.params.id, {
+  const updatedFood = await FoodModel.findByIdAndUpdate(req.params.id, {
     foodName: req.body.foodName,
     category: req.body.category,
     price: req.body.price,
     ingredients: req.body.ingredients,
   });
-  res.json(updatedItem);
+  res.json(updatedFood);
 });
 
 foodRouter.delete("/:id", async (req: Request, res: Response) => {
-  const deletedItem = await FoodModel.findByIdAndDelete(req.params.id, {
+  const deletedFood = await FoodModel.findByIdAndDelete(req.params.id, {
     foodName: req.body.foodName,
     category: req.body.category,
     price: req.body.price,
     ingredients: req.body.ingredients,
   });
-  res.json(deletedItem);
+  res.json(deletedFood);
 });

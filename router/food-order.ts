@@ -1,29 +1,50 @@
 import { Request, Response, Router } from "express";
-import { FoodOrderModel } from "../models/food-category";
+import { FoodOrderModel } from "../models/food-order";
+import { CustomRequest } from "../constants/type";
+import { verify } from "crypto";
 
 export const foodOrderRouter = Router();
+// const auth = async (req, res, next) => {
+//   const token = req.get("authentication");
+
+//   try {
+//     const verified = await verifyToken(token, {
+//       secretKey: process.env.CLERK_SECRET_KEY,
+//     });
+//     const userId verified.sub;
+//     req.userId = userId;
+//     next();
+//   } catch {
+//     res.json({ status: "Forbidden"})
+//   }
+// }
 
 foodOrderRouter.get("/", async (req: Request, res: Response) => {
-  const item = await FoodOrderModel.find();
-  res.json(item);
+  const allFoodOrder = await FoodOrderModel.find();
+  res.json(allFoodOrder);
 });
 
 foodOrderRouter.post("/", async (req: Request, res: Response) => {
-  const newItem = await FoodOrderModel.create({
-    foodName: req.body.foodName,
-  });
-  res.json(newItem);
+  // const user = req?.userId;
+  const { foodOrderItems, totalPrice } = req.body;
+  const order = { user: "dfg", foodOrderItems, totalPrice };
+  const newOrder = await FoodOrderModel.create(order);
+
+  // const newFoodOrder = await FoodOrderModel.create({
+  //   foodName: req.body.foodName,
+  // });
+  // res.json(newFoodOrder);
 });
 
 foodOrderRouter.get("/:id", async (req: Request, res: Response) => {
   //Create Food Category
   const id = req.params.id;
-  const item = await FoodOrderModel.findById(id);
-  res.json(item);
+  const oneFoodOrder = await FoodOrderModel.findById(id);
+  res.json(oneFoodOrder);
 });
 
 foodOrderRouter.patch("/:id", async (req: Request, res: Response) => {
-  const updatedItem = await FoodOrderModel.findByIdAndUpdate(
+  const updatedFoodOrder = await FoodOrderModel.findByIdAndUpdate(
     req.params.id,
     {
       user: req.body.user,
@@ -31,9 +52,11 @@ foodOrderRouter.patch("/:id", async (req: Request, res: Response) => {
     },
     { new: true }
   );
-  res.json(updatedItem);
+  res.json(updatedFoodOrder);
 });
 foodOrderRouter.delete("/:id", async (req: Request, res: Response) => {
-  const deletedItem = await FoodOrderModel.findByIdAndDelete(req.params.id);
-  res.json(deletedItem);
+  const deletedFoodOrder = await FoodOrderModel.findByIdAndDelete(
+    req.params.id
+  );
+  res.json(deletedFoodOrder);
 });

@@ -4,15 +4,15 @@ import { FoodCategoryModel } from "../models/food-category";
 export const foodCategoryRouter = Router();
 
 foodCategoryRouter.get("/", async (req: Request, res: Response) => {
-  const item = await FoodCategoryModel.find();
-  res.json(item);
+  const allCategory = await FoodCategoryModel.find();
+  res.json(allCategory);
 });
 
 foodCategoryRouter.post("/", async (req: Request, res: Response) => {
-  const newItem = await FoodCategoryModel.create({
+  const newCategory = await FoodCategoryModel.create({
     categoryName: req.body.categoryName,
   });
-  res.json(newItem);
+  res.json(newCategory);
 });
 foodCategoryRouter.get("/:id", async (req: Request, res: Response) => {
   //Create Food Category
