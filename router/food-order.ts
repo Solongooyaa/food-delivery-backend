@@ -20,20 +20,29 @@ export const foodOrderRouter = Router();
 // }
 
 foodOrderRouter.get("/", async (req: Request, res: Response) => {
+  //     const user = req?.userId;
+  // const data = fs.readFileSync("data/foodOrder.ts", "utf8");
+  // const foodOrder = JSON.parse(data)
+
+  // res.json(foodOrder)
   const allFoodOrder = await FoodOrderModel.find();
   res.json(allFoodOrder);
 });
 
 foodOrderRouter.post("/", async (req: Request, res: Response) => {
-  // const user = req?.userId;
-  const { foodOrderItems, totalPrice } = req.body;
-  const order = { user: "dfg", foodOrderItems, totalPrice };
-  const newOrder = await FoodOrderModel.create(order);
+  //   const user = req?.userId;
+  // const data = fs.readFileSync("data/foodOrder.ts", "utf8");
+  // const foodOrder = JSON.parse(data)
+  // res.json(foodOrder)
 
-  // const newFoodOrder = await FoodOrderModel.create({
-  //   foodName: req.body.foodName,
-  // });
-  // res.json(newFoodOrder);
+  // const { foodOrderItems, totalPrice } = req.body;
+  // const order = { user: "dfg", foodOrderItems, totalPrice };
+  // const newOrder = await FoodOrderModel.create(order);
+
+  const newFoodOrder = await FoodOrderModel.create({
+    foodName: req.body.foodName,
+  });
+  res.json(newFoodOrder);
 });
 
 foodOrderRouter.get("/:id", async (req: Request, res: Response) => {

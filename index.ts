@@ -19,6 +19,21 @@ const connectMongoDB = async () => {
   await mongoose.connect(MONGODB_URI);
 };
 
+// const auth = async (req, res, next) => {
+//   const token = req.get("authentication");
+
+//   try {
+//     const verified = await verifyToken(token, {
+//       secretKey: process.env.CLERK_SECRET_KEY,
+//     });
+//     const userId verified.sub;
+//     req.userId = userId;
+//     next();
+//   } catch {
+//     res.json({ status: "Forbidden"})
+//   }
+// }
+
 connectMongoDB();
 
 app.use("/food-category", foodCategoryRouter);
