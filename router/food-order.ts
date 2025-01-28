@@ -1,42 +1,34 @@
 import { Request, Response, Router } from "express";
 import { FoodOrderModel } from "../models/food-order";
 import { CustomRequest } from "../constants/type";
-import { verify } from "crypto";
 
 export const foodOrderRouter = Router();
-// const auth = async (req, res, next) => {
-//   const token = req.get("authentication");
+const auth = async (req: any, res: any, next: any) => {
+  const token = req.get("authentication");
 
-//   try {
-//     const verified = await verifyToken(token, {
-//       secretKey: process.env.CLERK_SECRET_KEY,
-//     });
-//     const userId verified.sub;
-//     req.userId = userId;
-//     next();
-//   } catch {
-//     res.json({ status: "Forbidden"})
-//   }
-// }
+  try {
+    const verified = await verifyToken(token, {
+      secretKey: process.env.CLERK_SECRET_KEY,
+    });
+    // console.log({ verified });
+    // const userId = verified?.sub;
+    // console.log(userId);
+    // req.userId = userId;
+    next();
+  } catch {
+    res.json({ status: "Forbidden" });
+  }
+};
 
-foodOrderRouter.get("/", async (req: Request, res: Response) => {
-  //     const user = req?.userId;
-  // const data = fs.readFileSync("data/foodOrder.ts", "utf8");
-  // const foodOrder = JSON.parse(data)
-
-  // res.json(foodOrder)
-  const allFoodOrder = await FoodOrderModel.find();
+foodOrderRouter.get("/", auth, async (req: Request, res: Response) => {
+  const allFoodOrder = await FoodOrderModel.find({});
   res.json(allFoodOrder);
 });
 
 foodOrderRouter.post("/", async (req: Request, res: Response) => {
-  //   const user = req?.userId;
-  // const data = fs.readFileSync("data/foodOrder.ts", "utf8");
-  // const foodOrder = JSON.parse(data)
-  // res.json(foodOrder)
-
+  // const user = req?.userId;
   // const { foodOrderItems, totalPrice } = req.body;
-  // const order = { user: "dfg", foodOrderItems, totalPrice };
+  // const order = { user: "dfg", foodOrderItems: , totalPrice: };
   // const newOrder = await FoodOrderModel.create(order);
 
   const newFoodOrder = await FoodOrderModel.create({
@@ -69,3 +61,6 @@ foodOrderRouter.delete("/:id", async (req: Request, res: Response) => {
   );
   res.json(deletedFoodOrder);
 });
+function verifyToken(token: any, arg1: { secretKey: string | undefined }) {
+  throw new Error("Function not implemented.");
+}

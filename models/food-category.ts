@@ -6,6 +6,6 @@ const FOOD_CATEGORY_SCHEMA = new Schema({
 
 const FoodCategoryModel =
   mongoose.models["FoodCategory"] ||
-  model("FoodCategory", FOOD_CATEGORY_SCHEMA);
+  model("FoodCategory", FOOD_CATEGORY_SCHEMA, "food-category");
 
 export { FoodCategoryModel };
