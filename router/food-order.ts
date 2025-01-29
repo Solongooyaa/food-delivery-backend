@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 import { FoodOrderModel } from "../models/food-order";
-import { CustomRequest } from "../constants/type";
+// import { CustomRequest } from "../constants/type";
 
 export const foodOrderRouter = Router();
 // const auth = async (req: any, res: any, next: any) => {
