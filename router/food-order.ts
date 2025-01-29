@@ -3,24 +3,24 @@ import { FoodOrderModel } from "../models/food-order";
 import { CustomRequest } from "../constants/type";
 
 export const foodOrderRouter = Router();
-const auth = async (req: any, res: any, next: any) => {
-  const token = req.get("authentication");
+// const auth = async (req: any, res: any, next: any) => {
+//   const token = req.get("authentication");
 
-  try {
-    const verified = await verifyToken(token, {
-      secretKey: process.env.CLERK_SECRET_KEY,
-    });
-    // console.log({ verified });
-    // const userId = verified?.sub;
-    // console.log(userId);
-    // req.userId = userId;
-    next();
-  } catch {
-    res.json({ status: "Forbidden" });
-  }
-};
+//   try {
+//     const verified = await verifyToken(token, {
+//       secretKey: process.env.CLERK_SECRET_KEY,
+//     });
+// console.log({ verified });
+// const userId = verified?.sub;
+// console.log(userId);
+// req.userId = userId;
+//     next();
+//   } catch {
+//     res.json({ status: "Forbidden" });
+//   }
+// };
 
-foodOrderRouter.get("/", auth, async (req: Request, res: Response) => {
+foodOrderRouter.get("/", async (req: Request, res: Response) => {
   const allFoodOrder = await FoodOrderModel.find({});
   res.json(allFoodOrder);
 });
