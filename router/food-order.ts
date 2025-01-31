@@ -1,36 +1,35 @@
 import { Request, Response, Router } from "express";
 import { FoodOrderModel } from "../models/food-order";
-import { auth, CustomRequest, isAdmin } from "../middleware/auth";
+import { error } from "console";
+// import { auth, CustomRequest, isAdmin } from "../middleware/auth";
 
 export const foodOrderRouter = Router();
 
-foodOrderRouter.get(
-  "/",
-  auth,
-  isAdmin,
-  async (req: CustomRequest, res: Response) => {
-    const allFoodOrder = await FoodOrderModel.find({});
-    res.json(allFoodOrder);
+foodOrderRouter.get("/orders", async (req: Request, res: Response) => {
+  try {
+    const allOrders = await FoodOrderModel.find({});
+    res.json(allOrders);
+  } catch (error) {
+    res.send(error);
   }
-);
+});
 
 foodOrderRouter.post("/", async (req: Request, res: Response) => {
   // const user = req?.userId;
-  // const { foodOrderItems, totalPrice } = req.body;
-  // const order = { user: "dfg", foodOrderItems: , totalPrice: };
+  // const { foodOrderItems, totalPrice, address } = req.body;
+  // const order = { user, foodOrderItems: , totalPrice, address};
   // const newOrder = await FoodOrderModel.create(order);
 
-  const newFoodOrder = await FoodOrderModel.create({
-    foodName: req.body.foodName,
-  });
-  res.json(newFoodOrder);
+  const newOrder = await FoodOrderModel.create();
+  res.json(newOrder);
+  //order
 });
 
-foodOrderRouter.get("/my-order", auth, async (req: Request, res: Response) => {
+foodOrderRouter.get("/my-order", async (req: Request, res: Response) => {
   try {
-    const user = req.userId;
+    // const user = req?.userId;
     const myOrders = await FoodOrderModel.find({
-      user: user,
+      // user: user,
     });
 
     res.json(myOrders);
@@ -39,16 +38,20 @@ foodOrderRouter.get("/my-order", auth, async (req: Request, res: Response) => {
   }
 });
 
-foodOrderRouter.put("/orders/:id", async (req: Request, res: Response) => {
-  const updatedFoodOrder = await FoodOrderModel.findByIdAndUpdate(
-    req.params.id,
-    {
-      user: req.body.user,
-      totalPrice: req.body.totalPrice,
-    },
-    { new: true }
-  );
-  res.json(updatedFoodOrder);
+foodOrderRouter.put("/:orderId", async (req: Request, res: Response) => {
+  try {
+    const { status } = req.body;
+    const allOrders = await FoodOrderModel.findByIdAndUpdate(
+      req.params.orderId,
+      {
+        status,
+      },
+      { new: true }
+    );
+    res.json(allOrders);
+  } catch (error) {
+    res.send(error);
+  }
 });
 foodOrderRouter.delete("/:id", async (req: Request, res: Response) => {
   const deletedFoodOrder = await FoodOrderModel.findByIdAndDelete(

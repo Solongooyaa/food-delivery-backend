@@ -1,36 +1,40 @@
-export type CustomRequest = Request & {
-  userId: string;
-  role: string;
-};
+// import { verifyToken } from "@clerk/backend/dist/tokens/verify";
 
-export const auth = async (req: Request, res: Response, next: () => void) => {
-  const token = req.get("authentication");
+// export type CustomRequest = Request & {
+//   userId: string;
+//   role: string;
+// };
 
-  try {
-    const verified = await verifyToken(token, {
-      secretKey: process.env.CLERK_SECRET_KEY,
-    });
-    const userId = verified?.sub;
-    const role = verified.metadata.role;
-    req.userId = userId;
-    next();
-  } catch {
-    res.sendStatus(401);
-  }
-};
+// export const auth = async (
+//   req: CustomRequest,
+//   res: Response,
+//   next: () => void
+// ) => {
+//   const token = req.get("authentication");
+//   try {
+//     const verified = await verifyToken(token, {
+//       secretKey: process.env.CLERK_SECRET_KEY,
+//     });
+//     const userId = verified?.sub;
+//     const role = verified.metadata.role;
 
-function verifyToken(token: any, arg1: { secretKey: string | undefined }) {
-  throw new Error("Function not implemented.");
-}
+//     req.userId = userId;
+//     req.role = role;
 
-export const isAdmin = async (
-  req: Request,
-  res: Response,
-  next: () => void
-) => {
-  if (req.role !== "admin") {
-    res.sendStatus(403);
-    return;
-  }
-  next();
-};
+//     next();
+//   } catch {
+//     res.sendStatus(401);
+//   }
+// };
+
+// export const isAdmin = async (
+//   req: CustomRequest,
+//   res: Response,
+//   next: () => void
+// ) => {
+//   if (req.role !== "admin") {
+//     res.sendtatus(403);
+//     return;
+//   }
+//   next();
+// };
