@@ -1,13 +1,18 @@
 import { Request, Response, Router } from "express";
 import { FoodOrderModel } from "../models/food-order";
-// import { CustomRequest } from "../constants/type";
+import { auth, CustomRequest, isAdmin } from "../middleware/auth";
 
 export const foodOrderRouter = Router();
 
-foodOrderRouter.get("/", async (req: Request, res: Response) => {
-  const allFoodOrder = await FoodOrderModel.find({});
-  res.json(allFoodOrder);
-});
+foodOrderRouter.get(
+  "/",
+  auth,
+  isAdmin,
+  async (req: CustomRequest, res: Response) => {
+    const allFoodOrder = await FoodOrderModel.find({});
+    res.json(allFoodOrder);
+  }
+);
 
 foodOrderRouter.post("/", async (req: Request, res: Response) => {
   // const user = req?.userId;
@@ -21,14 +26,20 @@ foodOrderRouter.post("/", async (req: Request, res: Response) => {
   res.json(newFoodOrder);
 });
 
-foodOrderRouter.get("/:id", async (req: Request, res: Response) => {
-  //Create Food Category
-  const id = req.params.id;
-  const oneFoodOrder = await FoodOrderModel.findById(id);
-  res.json(oneFoodOrder);
+foodOrderRouter.get("/my-order", auth, async (req: Request, res: Response) => {
+  try {
+    const user = req.userId;
+    const myOrders = await FoodOrderModel.find({
+      user: user,
+    });
+
+    res.json(myOrders);
+  } catch (error) {
+    res.send(error);
+  }
 });
 
-foodOrderRouter.patch("/:id", async (req: Request, res: Response) => {
+foodOrderRouter.put("/orders/:id", async (req: Request, res: Response) => {
   const updatedFoodOrder = await FoodOrderModel.findByIdAndUpdate(
     req.params.id,
     {

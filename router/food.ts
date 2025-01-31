@@ -33,7 +33,7 @@ foodRouter.post("/", async (req: Request, res: Response) => {
   res.json(newFood);
 });
 
-foodRouter.get("/:id", async (req: Request, res: Response) => {
+foodRouter.get("/food/:id", async (req: Request, res: Response) => {
   const id = req.params.id;
   const oneFood = await FoodModel.findById(id);
   res.json(oneFood);
